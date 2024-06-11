@@ -10,7 +10,9 @@ st.set_page_config(
 )
 
 # -----------------------------------------------------------------------------
-# Declare some useful functions.
+# Definisci il dato da esporre
+dato = "Questo è un dato di esempio"
 
-@st.cache_data
-
+# Visualizza il dato
+st.title("Il mio dato Streamlit")
+st.write(dato)

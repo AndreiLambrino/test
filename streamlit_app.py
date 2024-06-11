@@ -1,4 +1,7 @@
-pip install ShellPy
+import pip
+
+# Installa Shellypy utilizzando pip
+pip.install('ShellyPy')
 
 import streamlit as st
 import ShellyPy as sp

@@ -1,4 +1,4 @@
-
+!pip install ShellyPy
 import streamlit as st
 import ShellyPy as sp
 import pandas as pd

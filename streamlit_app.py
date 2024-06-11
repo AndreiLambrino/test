@@ -1,7 +1,6 @@
 pip install streamlit ShellyPy
 
 import streamlit as st
-import ShellyPy as sp
 import pandas as pd
 import math
 from pathlib import Path
@@ -15,20 +14,25 @@ st.set_page_config(
 # -----------------------------------------------------------------------------
 
 # Inserisci qui l'indirizzo IP della tua presa Shelly
+import streamlit as st
+from shellypy import Shelly
 shelly_ip = '172.16.10.134'
-
 # Creazione di un'istanza del dispositivo Shelly
-shelly = sp(shelly_ip)
+shelly = Shelly(shelly_ip)
 
 st.title('Stato della Presa Shelly')
 
 def get_shelly_status():
     try:
-        relay_status = sp.get_relay(0)
+        relay_status = shelly.get_relay(0)
+        st.write("Relay status retrieved:", relay_status)
         return relay_status
     except Exception as e:
         st.error(f"Errore nel recuperare i dati: {e}")
         return None
+
+# Debug: Mostra l'IP della Shelly
+st.write(f"Collegamento alla presa Shelly all'indirizzo: {shelly_ip}")
 
 relay_status = get_shelly_status()
 
@@ -39,4 +43,5 @@ if relay_status is not None:
         st.warning("La presa Shelly è SPENTA.")
 else:
     st.write("Nessun dato disponibile.")
+
 

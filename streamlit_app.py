@@ -1,3 +1,5 @@
+pip install streamlit ShellyPy
+
 import streamlit as st
 import ShellyPy as sp
 import pandas as pd
@@ -11,34 +13,30 @@ st.set_page_config(
 )
 
 # -----------------------------------------------------------------------------
-import streamlit as st
-import requests
-import pandas as pd
 
-# URL dell'endpoint Shelly
-shelly_url = 'http://172.16.10.134/'
+# Inserisci qui l'indirizzo IP della tua presa Shelly
+shelly_ip = '172.16.10.134'
 
-def fetch_shelly_data(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        st.error(f"Errore nel recuperare i dati: {response.status_code}")
+# Creazione di un'istanza del dispositivo Shelly
+shelly = sp(shelly_ip)
+
+st.title('Stato della Presa Shelly')
+
+def get_shelly_status():
+    try:
+        relay_status = sp.get_relay(0)
+        return relay_status
+    except Exception as e:
+        st.error(f"Errore nel recuperare i dati: {e}")
         return None
 
-st.title('Monitoraggio dei Dati della Presa Shelly')
+relay_status = get_shelly_status()
 
-data = fetch_shelly_data(shelly_url)
+if relay_status is not None:
+    if relay_status['ison']:
+        st.success("La presa Shelly è ACCESA.")
+    else:
+        st.warning("La presa Shelly è SPENTA.")
+else:
+    st.write("Nessun dato disponibile.")
 
-if data:
-    st.write("Dati ricevuti dalla presa Shelly:")
-    st.json(data)
-    
-    # Supponendo che i dati siano in un formato tabellare
-    df = pd.DataFrame(data)
-    st.dataframe(df)
-    
-    # Puoi aggiungere ulteriori visualizzazioni dei dati qui
-    # Ad esempio, se hai dati di potenza e vuoi visualizzarli con un grafico a linea:
-    if 'power' in df.columns:
-        st.line_chart(df['power'])

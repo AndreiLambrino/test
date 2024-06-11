@@ -1,3 +1,4 @@
+pip install streamlit ShellyPy
 
 import streamlit as st
 import pandas as pd
@@ -13,9 +14,10 @@ st.set_page_config(
 # -----------------------------------------------------------------------------
 
 # Inserisci qui l'indirizzo IP della tua presa Shelly
+
 import streamlit as st
-from shellypy import Shelly
-shelly_ip = '172.16.10.134'
+from ShellyPy import Shelly
+
 # Creazione di un'istanza del dispositivo Shelly
 shelly = Shelly(shelly_ip)
 

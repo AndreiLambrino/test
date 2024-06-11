@@ -1,7 +1,3 @@
-import pip
-
-# Installa Shellypy utilizzando pip
-pip.install('ShellyPy')
 
 import streamlit as st
 import ShellyPy as sp
@@ -23,11 +19,7 @@ dato = "Questo è un dato di esempio"
 st.title("Il mio dato Streamlit")
 st.write(dato)
 
-
-# Sostituisci con l'indirizzo IP della tua presa Shelly
 ip_address = "172.16.10.134"
-
-# Crea un'istanza della classe ShellyDevice
 device = sp.Shelly(ip_address)
 
 # Leggi il consumo cumulativo (in kWh)

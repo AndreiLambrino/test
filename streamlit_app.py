@@ -1,4 +1,3 @@
-pip install streamlit ShellyPy
 
 import streamlit as st
 import pandas as pd

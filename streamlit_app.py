@@ -1,12 +1,13 @@
 import streamlit as st
+import ShellyPy as sp
 import pandas as pd
 import math
 from pathlib import Path
 
-# Set the title and favicon that appear in the Browser's tab bar.
+# titolo della pagina
 st.set_page_config(
-    page_title='GDP Dashboard',
-    page_icon=':earth_americas:', # This is an emoji shortcode. Could be a URL too.
+    page_title='QUINDI PRESA',
+    page_icon=':earth_americas:',
 )
 
 # -----------------------------------------------------------------------------
@@ -16,3 +17,16 @@ dato = "Questo è un dato di esempio"
 # Visualizza il dato
 st.title("Il mio dato Streamlit")
 st.write(dato)
+
+
+# Sostituisci con l'indirizzo IP della tua presa Shelly
+ip_address = "172.16.10.134"
+
+# Crea un'istanza della classe ShellyDevice
+device = sp.Shelly(ip_address)
+
+# Leggi il consumo cumulativo (in kWh)
+energy = device.meter('0')
+energy
+
+st.write("Consumo", energy['power'])

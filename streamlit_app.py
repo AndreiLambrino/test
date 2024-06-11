@@ -11,18 +11,34 @@ st.set_page_config(
 )
 
 # -----------------------------------------------------------------------------
-# Definisci il dato da esporre
-dato = "Questo è un dato di esempio"
+import streamlit as st
+import requests
+import pandas as pd
 
-# Visualizza il dato
-st.title("Il mio dato Streamlit")
-st.write(dato)
+# URL dell'endpoint Shelly
+shelly_url = 'http://172.16.10.134/'
 
-ip_address = "172.16.10.134"
-device = sp.Shelly(ip_address)
+def fetch_shelly_data(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        st.error(f"Errore nel recuperare i dati: {response.status_code}")
+        return None
 
-# Leggi il consumo cumulativo (in kWh)
-energy = device.meter('0')
-energy
+st.title('Monitoraggio dei Dati della Presa Shelly')
 
-st.write("Consumo", energy['power'])
+data = fetch_shelly_data(shelly_url)
+
+if data:
+    st.write("Dati ricevuti dalla presa Shelly:")
+    st.json(data)
+    
+    # Supponendo che i dati siano in un formato tabellare
+    df = pd.DataFrame(data)
+    st.dataframe(df)
+    
+    # Puoi aggiungere ulteriori visualizzazioni dei dati qui
+    # Ad esempio, se hai dati di potenza e vuoi visualizzarli con un grafico a linea:
+    if 'power' in df.columns:
+        st.line_chart(df['power'])
